@@ -1,0 +1,30 @@
+---
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: check-shebang-scripts-are-executable
+      - id: detect-aws-credentials
+      - id: detect-private-key
+  - repo: https://github.com/dnephin/pre-commit-golang
+    rev: v0.5.1
+    hooks:
+      - id: go-fmt
+      - id: go-imports
+      - id: no-go-testing
+      - id: golangci-lint
+      - id: go-unit-tests
+      - id: validate-toml
+  - repo: local
+    hooks:
+      - id: cgi-test
+        name: Run perl tests on cgi script
+        entry: ./eo_test.pl
+        language: script
+        types: [file]
+        files: ^eo\.pl$
