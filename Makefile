@@ -14,7 +14,7 @@ build-docker:
 	@docker build -t go-web-test -f Dockerfile .
 
 run-docker: build-docker
-	@docker run --rm --name go-web-test -p 9991:9991 go-web-test
+	@docker run --rm --name go-web-test -p 9991:8080 go-web-test
 
 pre-commit:
 	@pre-commit install
