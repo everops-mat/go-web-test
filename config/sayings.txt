@@ -1,6 +1,4 @@
-#!/usr/bin/env perl
-
-my $excuses = "clock speed
+clock speed
 solar flares
 electromagnetic radiation from satellite debris
 static from nylon underwear
@@ -467,70 +465,3 @@ Leap second overloaded RHEL6 servers
 DNS server drank too much and had a hiccup
 Your machine had the fuses in backwards.
 We didn't think it was DNS, but it was DNS!
-";
-
-srand(time);
-
-my @excuse = split("\n",$excuses);
-my $number = scalar(@excuse);
-$thisexcuse = $excuse[ (rand(1000)*$$)%($number+1) ];
-
-print "Content-type: text/html\n\n";
-
-print <<HTML;
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel=\"stylesheet\" href=\"https://www.everops.com/wp-includes/css/dist/block-library/style.min.css?ver=6.7.1\">
-    <title>EverOpin' Style Opportunity Generator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #2E8B57;
-        }
-        p {
-            font-size: 1.2em;
-            color: #555;
-        }
-        .excuse {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #20B2AA
-        }
-        hr {
-            border: 0;
-            height: 1px;
-            background: #ccc;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>EverOpin' Style Opportunity Generator</h1>
-        <hr>
-        <p>The cause of the problem is:</p>
-        <p class="excuse">$thisexcuse</p>
-        <hr>
-        <p><small>Generated dynamically. Reload for a new oppritunity.</small></p>
-    </div>
-</body>
-</html>
-HTML
-
-exit(0);
