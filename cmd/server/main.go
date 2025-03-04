@@ -37,15 +37,24 @@ func main() {
 	// Handle SIGHUP for reloading
 	go signals.HandleSignals(defaultSayingsFile)
 
+	// Add middleware to the handler
+	mux := http.NewServeMux()
+	mux.Handle("/", handlers.AuthMiddleware(http.HandlerFunc(handlers.RandomSayingHandler)))
+
 	// Create HTTP server with graceful shutdown support
 	server := &http.Server{
-		Addr:    fmt.Sprintf(":%d", serverPort),
-		Handler: http.HandlerFunc(handlers.RandomSayingHandler),
+		Addr:              fmt.Sprintf(":%d", serverPort),
+		Handler:           mux,
+		ReadHeaderTimeout: 5 * time.Second,   // Prevents Slowloris attack
+		ReadTimeout:       10 * time.Second,  // Limits request body read time
+		WriteTimeout:      10 * time.Second,  // Limits response write time
+		IdleTimeout:       120 * time.Second, // Keep-alive timeout
 	}
 
 	// Run server in a separate goroutine
 	var wg sync.WaitGroup
 	wg.Add(1)
+
 	go func() {
 		defer wg.Done()
 		logger.JSONLogger("info", fmt.Sprintf("Server starting on port %d...", serverPort))

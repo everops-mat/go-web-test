@@ -9,7 +9,7 @@ import (
 // Read the test file
 func TestReadFile(t *testing.T) {
 
-	fileName := "testfile.txt"
+	fileName := "/tmp/testfile.txt"
 	content := []byte("Hello, World!")
 
 	if err := os.WriteFile(fileName, content, 0644); err != nil {
@@ -19,25 +19,26 @@ func TestReadFile(t *testing.T) {
 	// Ensure file gets removed after test
 	defer os.Remove(fileName)
 
-	data, err := os.ReadFile("testfile.txt")
+	data, err := os.ReadFile(fileName)
 	if err != nil {
 		t.Fatalf("Failed to read file: %v", err)
 	}
 
 	if len(data) == 0 {
-		t.Errorf("Expected file content, but got empty data")
+		t.Errorf("Expected file content, but got empty data: %v", data)
 	}
 }
 
 // Write to the test file
 func TestWriteFile(t *testing.T) {
+	fileName := "/tmp/testfile.txt"
 	content := []byte("Hello, World!")
-	err := os.WriteFile("testfile.txt", content, 0644)
+	err := os.WriteFile(fileName, content, 0644)
 	if err != nil {
 		t.Fatalf("Failed to write file: %v", err)
 	}
 
-	defer os.Remove("testfile.txt") // Cleanup
+	defer os.Remove(fileName) // Cleanup
 }
 
 // Test read from standard input

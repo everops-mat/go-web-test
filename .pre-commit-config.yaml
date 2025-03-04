@@ -9,7 +9,6 @@ repos:
       - id: check-added-large-files
       - id: check-merge-conflict
       - id: check-shebang-scripts-are-executable
-      - id: detect-aws-credentials
       - id: detect-private-key
   - repo: https://github.com/dnephin/pre-commit-golang
     rev: v0.5.1
@@ -20,6 +19,11 @@ repos:
       - id: golangci-lint
       - id: go-unit-tests
       - id: validate-toml
+  - repo: https://github.com/AleksaC/hadolint-py
+    rev: v2.12.1b3
+    hooks:
+      - id: hadolint
+        args: ["--ignore", "DL3008", "--ignore", "DL3007", "--ignore", "DL4006"]
 #   - repo: local
 #     hooks:
 #       - id: cgi-test

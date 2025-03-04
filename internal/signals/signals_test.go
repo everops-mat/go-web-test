@@ -11,7 +11,7 @@ import (
 // TestSIGHUPReload ensures SIGHUP triggers a file reload
 func TestSIGHUPReload(t *testing.T) {
 	// Create a temporary sayings file
-	tmpFile, err := os.CreateTemp("", "test_sayings.txt")
+	tmpFile, err := os.CreateTemp("/tmp", "test_sayings.txt")
 	if err != nil {
 		t.Fatalf("Failed to create temp file: %v", err)
 	}
