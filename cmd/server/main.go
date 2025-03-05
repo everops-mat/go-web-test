@@ -40,6 +40,7 @@ func main() {
 	// Add middleware to the handler
 	mux := http.NewServeMux()
 	mux.Handle("/", handlers.AuthMiddleware(http.HandlerFunc(handlers.RandomSayingHandler)))
+	mux.Handle("/healthz", http.HandlerFunc(handlers.HealthzHandler))
 
 	// Create HTTP server with graceful shutdown support
 	server := &http.Server{
