@@ -42,6 +42,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Build Docker image (linux/amd64)
+        run: docker build --platform linux/amd64 -t go-web-test:latest .
+
       - name: Start Docker container
         run: docker run -d --name go-web-test -p 8080:8080 go-web-test:latest
 
