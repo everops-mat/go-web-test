@@ -1,0 +1,73 @@
+---
+name: CI Pipeline
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image (linux/amd64)
+        run: docker build --platform linux/amd64 -t go-web-test:latest .
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+          cache-dependency-path: go.sum
+
+      - name: Run unit tests
+        run: go test -v -tags=unit ./...
+
+  integration-tests:
+    runs-on: ubuntu-latest
+    needs: [unit-tests]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Start Docker container
+        run: docker run -d --name go-web-test -p 8080:8080 go-web-test:latest
+
+      - name: Wait for container to be ready
+        run: |
+          for i in {1..10}; do
+            if curl -LsSf http://localhost:8080/healthz; then
+              echo "Container is ready"
+              exit 0
+            fi
+            echo "Waiting for container to be ready"
+            sleep 2
+          done
+          echo "Container is not ready"
+          exit 1
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+          cache-dependency-path: go.sum
+
+      - name: Run integration tests
+        run: go test -v -tags=intergration ./...
+
+      - name: Stop Container
+        if: always()
+        run: docker stop go-web-test
