@@ -22,21 +22,20 @@ repos:
     rev: v0.5.1
     hooks:
       - id: validate-toml
-      - id: go-fmt
+      - id: go-mod-tidy
       - id: go-imports
-      - id: no-go-testing
+      - id: go-fmt
+      - id: go-vet
+        name: Run go vet
+        language: system
+        entry: go vet ./...
+        pass_filenames: false
+        always_run: true
       - id: golangci-lint
+      - id: no-go-testing
       - id: go-unit-tests
   - repo: https://github.com/AleksaC/hadolint-py
     rev: v2.12.1b3
     hooks:
       - id: hadolint
-        args: ["--ignore", "DL3008", "--ignore", "DL3007", "--ignore", "DL4006"]
-#   - repo: local
-#     hooks:
-#       - id: cgi-test
-#         name: Run perl tests on cgi script
-#         entry: ./eo_test.pl
-#         language: script
-#         types: [file]
-#         files: ^eo\.pl$
+        args: ["--ignore", "DL3008", "--ignore", "DL3007"]
