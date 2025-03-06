@@ -1,5 +1,12 @@
 ---
 repos:
+  - repo: local
+    hooks:
+      - id: enforce-branch-naming
+        name: Enforce Branch Naming
+        entry: bash ./scripts/enforce-branch-naming.sh
+        language: system
+        args: ["feature/*", "hotfix/*", "bugfix/*", "ci/*", "release/*"]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
@@ -13,12 +20,12 @@ repos:
   - repo: https://github.com/dnephin/pre-commit-golang
     rev: v0.5.1
     hooks:
+      - id: validate-toml
       - id: go-fmt
       - id: go-imports
       - id: no-go-testing
       - id: golangci-lint
       - id: go-unit-tests
-      - id: validate-toml
   - repo: https://github.com/AleksaC/hadolint-py
     rev: v2.12.1b3
     hooks:
