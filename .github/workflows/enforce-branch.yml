@@ -1,0 +1,31 @@
+---
+name: Enforce Branch Naming
+
+on:
+  push:
+    branches: ignore
+      - main
+      - develop
+  pull_request:
+
+jobs:
+  enforce-branch-naming:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check branch naming
+        run: |
+          echo "Checking branch name..."
+          BRANCH_NAME=$(echo "${{ github.ref }}" | sed 's|refs/heads/||')
+
+          ALLOWED_BRANCH_PREFIXES="feature/* hotfix/* bugfix/* ci/* release/*"
+          REGEX=$(echo "$ALLOWED_BRANCH_PREFIXES" | sed 's/ /|/g') | sed 's/\*/[a-z0-9._-]*/g')
+
+          if [[ ! $BRANCH_NAME =~ ^($REGEX)$ ]]; then
+            echo "Branch name '$BRANCH_NAME' is invalid."
+            echo "Allowed branch prefixes: $ALLOWED_BRANCH_PREFIXES"
+            exit 1
+          fi
+          echo "Branch name $BRANCH_NAME is valid."
