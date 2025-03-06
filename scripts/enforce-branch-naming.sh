@@ -10,12 +10,12 @@ if [[ -z "$BRANCH_NAME" ]]; then
   exit 1
 fi
 
-ALLOWED_BRANCH_PREFIXES=$@
-if [[ -z "$ALLOWED_BRANCH_PREFIXES" ]]; then
-  echo "no allowed branch prefixes specified"
-  exit 1
-fi
+ALLOWED_BRANCH_PREFIXES="feature/* hotfix/* bugfix/* ci/* release/*"
 
+if [[ -z "$ALLOWED_BRANCH_PREFIXES" ]]; then
+	echo "ERROR: Invalid branch name prefix list '$ALLOWED_BRANCH_PREFIXES'"
+	exit 1
+fi
 REGEX=$(echo "$ALLOWED_BRANCH_PREFIXES" | sed 's/ /|/g' | sed 's/\*/[a-z0-9._-]*/g')
 
 # Check if the branch name matches any of the allowed patterns

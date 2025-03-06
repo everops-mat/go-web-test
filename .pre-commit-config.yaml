@@ -6,7 +6,8 @@ repos:
         name: Enforce Branch Naming
         entry: bash ./scripts/enforce-branch-naming.sh
         language: system
-        args: ["feature/*", "hotfix/*", "bugfix/*", "ci/*", "release/*"]
+        pass_filenames: false
+        always_run: true
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
