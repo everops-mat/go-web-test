@@ -15,11 +15,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Check branch naming
+      - name: Get branch name
         run: |
           echo "Checking branch name..."
-          BRANCH_NAME=$(echo "${{ github.ref }}" | sed 's|refs/heads/||')
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+          else
+            BRANCH_NAME="${{ github.ref_name }}"
+            BRANCH_NAME="${BRANCH_NAME#refs/heads/}"
+          fi
 
+          echo "Branch name: $BRANCH_NAME"
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+
+      - name: Enforce branch naming
+        run: |
           ALLOWED_BRANCH_PREFIXES="feature/* hotfix/* bugfix/* ci/* release/*"
           REGEX=$(echo "$ALLOWED_BRANCH_PREFIXES" | sed -e 's/ /|/g' | sed -e 's/\*/[a-z0-9._-]*/g')
 

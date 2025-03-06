@@ -2,9 +2,23 @@
 name: CI Pipeline
 on:
   push:
+    paths:
+      - ./cmd/**
+      - ./internal/**
+      - ./go.mod
+      - ./go.sum
+      - ./Dockerfile
+      - ./tests/server_test.go
     branches:
       - main
   pull_request:
+    paths:
+      - ./cmd/**
+      - ./internal/**
+      - ./go.mod
+      - ./go.sum
+      - ./Dockerfile
+      - ./tests/server_test.go
     branches:
       - main
 
