@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_everops_mat_go_web_test_1742571318382-pr-trigger-input-set
+  identifier: Build_everops_mat_go_web_test_1742571318382prtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: Build_everops_mat_go_web_test_1742571318382
+    properties:
+      ci:
+        codebase:
+          build:
+            type: PR
+            spec:
+              number: <+trigger.prNumber>
