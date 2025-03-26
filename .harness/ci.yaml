@@ -38,6 +38,7 @@ pipeline:
                       env
                       go version
                       git symbolic-ref --short HEAD
+                      go mod tidy
                       export PATH=$(go env GOPATH)/bin:$PATH
                       go install golang.org/dl/go1.20@latest
                       go1.20 download
