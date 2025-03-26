@@ -41,6 +41,8 @@ pipeline:
                       else
                         BRANCH_NAME="$HARNESS_GIT_BRANCH"
                       fi
+
+                      echo "EVENT: $HARNESS_GIT_EVENT"
                       BRANCH_NAME=$(git symbolic-ref --short HEAD)
                       echo "Branch name: $BRANCH_NAME"
 
