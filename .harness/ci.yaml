@@ -38,6 +38,10 @@ pipeline:
                       env
                       go version
                       git symbolic-ref --short HEAD
+                      export PATH=$(go env GOPATH)/bin:$PATH
+                      go install golang.org/dl/go1.24.1@latest
+                      go1.24.1 download
+                      go mod tidy
               - step:
                   type: Run
                   name: run unit tests
@@ -46,9 +50,7 @@ pipeline:
                     shell: Sh
                     command: |-
                       export PATH=$(go env GOPATH)/bin:$PATH
-                      go install golang.org/dl/go1.23@latest
-                      go1.23 download
-                      go1.23 test -v -tags=unit ./...
+                      go1.24.1 test -v -tags=unit ./...
               - parallel:
                   - step:
                       type: Semgrep
