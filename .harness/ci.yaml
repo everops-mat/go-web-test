@@ -49,20 +49,32 @@ pipeline:
                       go install golang.org/dl/go1.23@latest
                       go1.23 download
                       go1.23 test -v -tags=unit ./...
-              - step:
-                  type: Semgrep
-                  name: Semgrep_1
-                  identifier: Semgrep_1
-                  spec:
-                    target:
-                      detection: auto
-                      type: repository
-                    advanced:
-                      log:
-                        level: info
-                      args: {}
-                    mode: orchestration
-                    config: default
+              - parallel:
+                  - step:
+                      type: Semgrep
+                      name: Semgrep_1
+                      identifier: Semgrep_1
+                      spec:
+                        target:
+                          detection: auto
+                          type: repository
+                        advanced:
+                          log:
+                            level: info
+                          args: {}
+                        mode: orchestration
+                        config: default
+                  - step:
+                      type: BuildAndPushDockerRegistry
+                      name: BuildAndPushDockerRegistry_1
+                      identifier: BuildAndPushDockerRegistry_1
+                      spec:
+                        connectorRef: account.harnessImage
+                        repo: testme
+                        tags:
+                          - last
+                        envVariables:
+                          PLUGIN_DRY_RUN: "true"
               - parallel:
                   - step:
                       type: Owasp
