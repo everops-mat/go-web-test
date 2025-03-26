@@ -28,7 +28,7 @@ pipeline:
             steps:
               - step:
                   type: Run
-                  name: Run_1
+                  name: Validate Branch Name
                   identifier: Run_1
                   spec:
                     shell: Bash
@@ -41,7 +41,7 @@ pipeline:
                       else
                         BRANCH_NAME="$HARNESS_GIT_BRANCH"
                       fi
-
+                      BRANCH_NAME=$(git symbolic-ref --short HEAD)
                       echo "Branch name: $BRANCH_NAME"
 
                       # Define allowed patterns
