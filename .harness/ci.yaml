@@ -44,7 +44,11 @@ pipeline:
                   identifier: run_unit_tests
                   spec:
                     shell: Sh
-                    command: go test -v -tags=unit ./...
+                    command: |-
+                      export PATH=$(go env GOPATH)/bin:$PATH
+                      go install golang.org/dl/go1.23@latest
+                      go1.23 download
+                      go1.23 test -v -tags=unit ./...
               - step:
                   type: Semgrep
                   name: Semgrep_1

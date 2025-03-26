@@ -1,4 +1,4 @@
-FROM golang:1.16 as builder
+FROM golang:1.23 as builder
 LABEL maintainer="Mat Kovach <mat.kovach@everops.com>"
 WORKDIR /app
 COPY go.mod go.sum ./
