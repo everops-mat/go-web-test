@@ -1,0 +1,14 @@
+inputSet:
+  pipeline:
+    identifier: ci
+    properties:
+      ci:
+        codebase:
+          build:
+            spec:
+              branch: bugfix/testonetwothree
+            type: branch
+  name: inputset1
+  identifier: inputset1
+  orgIdentifier: default
+  projectIdentifier: default_project
