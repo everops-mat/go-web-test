@@ -35,6 +35,8 @@ pipeline:
                     command: |-
                       echo "Checking branch name..."
 
+                      echo "EVENT: $HARNESS_GIT_EVENT"
+
                       # Get the branch name
                       if [[ "$HARNESS_GIT_EVENT" == "pull_request" ]]; then
                         BRANCH_NAME="$HARNESS_GIT_PR_SOURCE_BRANCH"
@@ -42,7 +44,6 @@ pipeline:
                         BRANCH_NAME="$HARNESS_GIT_BRANCH"
                       fi
 
-                      echo "EVENT: $HARNESS_GIT_EVENT"
                       BRANCH_NAME=$(git symbolic-ref --short HEAD)
                       echo "Branch name: $BRANCH_NAME"
 
