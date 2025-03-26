@@ -1,0 +1,25 @@
+---
+trigger:
+  name: PR Trigger
+  identifier: pr_trigger
+  enabled: true
+  description: Trigger on PRs
+  tags: {}
+  projectIdentifier: default_project
+  orgIdentifier: default
+  pipelineIdentifier: Enforce_Branch_Naming
+  source:
+    type: Webhook
+    spec:
+      type: GitHub
+      spec:
+        type: PullRequest
+        spec:
+          connectorRef: account.Github_OAuth_1742571287290
+          repoName: everops-mat/go-web-test
+          actions:
+            - opened
+            - synchronize
+  inputYaml: |
+    pipeline:
+      identifier: Enforce_Branch_Naming
