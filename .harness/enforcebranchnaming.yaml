@@ -45,8 +45,8 @@ pipeline:
                       echo "Branch name: $BRANCH_NAME"
 
                       # Define allowed patterns
-                      ALLOWED_BRANCH_PREFIXES="feature/* hotfix/* bugfix/* ci/* relea  se/*" # E: line too long (90 > 80 characters)
-                      REGEX=$(echo "$ALLOWED_BRANCH_PREFIXES" | sed -e 's/ /|/g' | se  d -e 's/\*/[a-z0-9._-]*/g') # E: line too long (112 > 80 characters)
+                      ALLOWED_BRANCH_PREFIXES="feature/* hotfix/* bugfix/* ci/* release/*" # E: line too long (90 > 80 characters)
+                      REGEX=$(echo "$ALLOWED_BRANCH_PREFIXES" | sed -e 's/ /|/g' | sed -e 's/\*/[a-z0-9._-]*/g') # E: line too long (112 > 80 characters)
 
                       if [[ ! $BRANCH_NAME =~ ^($REGEX)$ ]]; then
                         echo "Branch name '$BRANCH_NAME' is invalid."
