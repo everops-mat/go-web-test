@@ -1,0 +1,14 @@
+inputSet:
+  pipeline:
+    identifier: enforcebranchnaming
+    properties:
+      ci:
+        codebase:
+          build:
+            spec:
+              branch: bugfix/testonetwothree
+            type: branch
+  name: input-2
+  identifier: input2
+  orgIdentifier: default
+  projectIdentifier: default_project
