@@ -1,10 +1,6 @@
 module go-web-test
 
-go 1.23
-
-toolchain go1.24.1
-
-// toolchain go1.24.0
+go 1.16
 
 require (
 	github.com/PuerkitoBio/goquery v1.10.2
