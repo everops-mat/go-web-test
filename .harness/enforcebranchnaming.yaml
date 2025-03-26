@@ -1,0 +1,52 @@
+pipeline:
+  name: enforce-branch-naming
+  identifier: enforcebranchnaming
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: Validate Branch Name
+        identifier: Validate_Branch_Name
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: Get Branch Name and Validate
+                  identifier: Get_Branch_Name_and_Validate
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: |-
+                          echo "Checking branch name..."
+
+                          # Get the branch name
+                          if [[ "$HARNESS_GIT_EVENT" == "pull_request" ]]; then
+                              BRANCH_NAME="$HARNESS_GIT_PR_SOURCE_BRANCH"
+                          else
+                              BRANCH_NAME="$HARNESS_GIT_BRANCH"
+                          fi
+
+                          echo "Branch name: $BRANCH_NAME"
+
+                          # Define allowed patterns
+                          ALLOWED_BRANCH_PREFIXES="feature/* hotfix/* bugfix/* ci/* relea  se/*" # E: line too long (90 > 80 characters)
+                          REGEX=$(echo "$ALLOWED_BRANCH_PREFIXES" | sed -e 's/ /|/g' | se  d -e 's/\*/[a-z0-9._-]*/g') # E: line too long (112 > 80 characters)
+
+                          if [[ ! $BRANCH_NAME =~ ^($REGEX)$ ]]; then
+                            echo "Branch name '$BRANCH_NAME' is invalid."
+                            echo "Allowed branch prefixes: $ALLOWED_BRANCH_PREFIXES"
+                            exit 1
+                          fi
+
+                          echo "Branch name $BRANCH_NAME is valid."
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}
