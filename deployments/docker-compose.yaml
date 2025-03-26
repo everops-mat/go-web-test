@@ -1,0 +1,12 @@
+---
+services:
+  app:
+    build: ../
+    container_name: go-web-test
+    ports:
+      - "9991:8080"
+    logging:  # Ensure logs are sent to stdout
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
