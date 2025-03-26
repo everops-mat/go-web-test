@@ -38,6 +38,13 @@ pipeline:
                       env
                       go version
               - step:
+                  type: Run
+                  name: run unit tests
+                  identifier: run_unit_tests
+                  spec:
+                    shell: Sh
+                    command: go test -v -tags=unit ./...
+              - step:
                   type: BuildAndPushDockerRegistry
                   name: BuildAndPushDockerRegistry_1
                   identifier: BuildAndPushDockerRegistry_1
