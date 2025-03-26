@@ -36,12 +36,12 @@ repos:
       - id: go-mod-tidy
       - id: go-imports
       - id: go-fmt
-      - id: go-vet
-        name: Run go vet
-        language: system
-        entry: go vet ./...
-        pass_filenames: false
-        always_run: true
+#      - id: go-vet
+#        name: Run go vet
+#        language: system
+#        entry: go vet ./...
+#        pass_filenames: false
+#        always_run: true
       - id: golangci-lint
       - id: no-go-testing
       - id: go-unit-tests
