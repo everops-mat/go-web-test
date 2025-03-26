@@ -37,3 +37,15 @@ pipeline:
                       ls
                       env
                       go version
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: BuildAndPushDockerRegistry_1
+                  identifier: BuildAndPushDockerRegistry_1
+                  spec:
+                    connectorRef: account.harnessImage
+                    repo: test
+                    tags:
+                      - test
+                    caching: true
+                    envVariables:
+                      PLUGIN_DRY_RUN: "true"
