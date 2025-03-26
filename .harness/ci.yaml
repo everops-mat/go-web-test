@@ -37,6 +37,7 @@ pipeline:
                       ls
                       env
                       go version
+                      git symbolic-ref --short HEAD
               - step:
                   type: Run
                   name: run unit tests
