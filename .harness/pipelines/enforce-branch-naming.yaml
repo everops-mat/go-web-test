@@ -1,4 +1,3 @@
----
 pipeline:
   name: Enforce Branch Naming
   identifier: go_web_test_enforce_branch_nameing
@@ -8,7 +7,7 @@ pipeline:
   properties:
     ci:
       codebase:
-        connectorRef: project.github_connector
+        connectorRef: github_connector
         repoName: everops-mat/go-web-test
         build:
           type: branch
