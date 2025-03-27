@@ -8,7 +8,7 @@ pipeline:
   properties:
     ci:
       codebase:
-        connectRef: org.github_connector
+        connectorRef: org.github_connector
         repoName: everops-mat/go-web-test
         build:
           type: branch
