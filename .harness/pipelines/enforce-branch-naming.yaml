@@ -12,12 +12,12 @@ pipeline:
         type: CI
         spec:
           cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
           runtime:
             type: Cloud
-            spec:
-              platform:
-                os: Linux
-                arch: Amd64
+            spec: {}
           execution:
             steps:
               - step:
