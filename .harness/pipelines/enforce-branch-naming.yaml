@@ -1,16 +1,10 @@
 ---
 pipeline:
   name: Enforce Branch Naming
-  identifier: Enforce_Branch_Naming
-  projectIdentifier: default_project
+  identifier: go_web_test_enforce_branch_nameing
+  projectIdentifier: go_web_test
   orgIdentifier: default
   tags: {}
-  properties:
-    ci:
-      codebase:
-      connectorRef: account.Github_OAuth_1742571287290
-      repoName: everops-mat/go-web-test
-      build: <+input>
   stages:
     - stage:
         name: Validate Branch Name
@@ -29,13 +23,7 @@ pipeline:
                     command: |
                       echo "Checking branch name..."
 
-                      # Get the branch name
-                      if [[ "$HARNESS_GIT_EVENT" == "pull_request" ]]; then
-                        BRANCH_NAME="$HARNESS_GIT_PR_SOURCE_BRANCH"
-                      else
-                        BRANCH_NAME="$HARNESS_GIT_BRANCH"
-                      fi
-
+                      BRANCH_NAME=$(git symbolic-ref --short HEAD)
                       echo "Branch name: $BRANCH_NAME"
 
                       # Define allowed patterns
