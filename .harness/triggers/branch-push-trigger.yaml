@@ -1,0 +1,28 @@
+trigger:
+  name: Branch Push Trigger
+  identifier: branch_push_trigger
+  enabled: true
+  description: Trigger on branch pushes except main/develop
+  tags: {}
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipelineIdentifier: Enforce_Branch_Naming
+  source:
+    type: Webhook
+    spec:
+      type: GitHub
+      spec:
+        type: Push
+        spec:
+          connectorRef: account.Github_OAuth_1742571287290
+          repoName: everops-mat/go-web-test
+          branches:
+            include:
+              - feature/*
+              - hotfix/*
+              - bugfix/*
+              - release/*
+              - ci/*
+  inputYaml: |
+    pipeline:
+      identifier: Enforce_Branch_Naming

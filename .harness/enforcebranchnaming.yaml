@@ -1,0 +1,61 @@
+pipeline:
+  name: enforce-branch-naming
+  identifier: enforcebranchnaming
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.Github_OAuth_1742571287290
+        repoName: everops-mat/go-web-test
+        build: <+input>
+  stages:
+    - stage:
+        name: Enforce Branch Naming
+        identifier: Enforce_Branch_Naming
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Validate Branch Name
+                  identifier: Run_1
+                  spec:
+                    shell: Bash
+                    command: |-
+                      echo "Checking branch name..."
+
+                      echo "EVENT: $HARNESS_GIT_EVENT"
+
+                      # Get the branch name
+                      if [[ "$HARNESS_GIT_EVENT" == "pull_request" ]]; then
+                        BRANCH_NAME="$HARNESS_GIT_PR_SOURCE_BRANCH"
+                      else
+                        BRANCH_NAME="$HARNESS_GIT_BRANCH"
+                      fi
+
+                      BRANCH_NAME=$(git symbolic-ref --short HEAD)
+                      echo "Branch name: $BRANCH_NAME"
+
+                      # Define allowed patterns
+                      ALLOWED_BRANCH_PREFIXES="feature/* hotfix/* bugfix/* ci/* release/*" # E: line too long (90 > 80 characters)
+                      REGEX=$(echo "$ALLOWED_BRANCH_PREFIXES" | sed -e 's/ /|/g' | sed -e 's/\*/[a-z0-9._-]*/g') # E: line too long (112 > 80 characters)
+
+                      if [[ ! $BRANCH_NAME =~ ^($REGEX)$ ]]; then
+                        echo "Branch name '$BRANCH_NAME' is invalid."
+                        echo "Allowed branch prefixes: $ALLOWED_BRANCH_PREFIXES"
+                      exit 1
+                      fi
+
+                      echo "Branch name $BRANCH_NAME is valid."
+                      exit 0

@@ -38,22 +38,85 @@ pipeline:
                       env
                       go version
                       git symbolic-ref --short HEAD
+                      export PATH=$(go env GOPATH)/bin:$PATH
+                      go install -x golang.org/dl/go1.20@latest
+                      go1.20 download
+                      go1.20 mod tidy
               - step:
                   type: Run
                   name: run unit tests
                   identifier: run_unit_tests
                   spec:
                     shell: Sh
-                    command: go test -v -tags=unit ./...
+                    command: |-
+                      export PATH=$(go env GOPATH)/bin:$PATH
+                      go1.24.1 test -v -tags=unit ./...
+              - parallel:
+                  - step:
+                      type: Semgrep
+                      name: Semgrep_1
+                      identifier: Semgrep_1
+                      spec:
+                        target:
+                          detection: auto
+                          type: repository
+                        advanced:
+                          log:
+                            level: info
+                          args: {}
+                        mode: orchestration
+                        config: default
+                  - step:
+                      type: BuildAndPushDockerRegistry
+                      name: BuildAndPushDockerRegistry_1
+                      identifier: BuildAndPushDockerRegistry_1
+                      spec:
+                        connectorRef: account.harnessImage
+                        repo: testme
+                        tags:
+                          - last
+                        envVariables:
+                          PLUGIN_DRY_RUN: "true"
+              - parallel:
+                  - step:
+                      type: Owasp
+                      name: Owasp_1
+                      identifier: Owasp_1
+                      spec:
+                        target:
+                          detection: auto
+                          type: repository
+                        advanced:
+                          log:
+                            level: info
+                          args: {}
+                        mode: orchestration
+                        config: default
+                  - step:
+                      type: OsvScanner
+                      name: OsvScanner_1
+                      identifier: OsvScanner_1
+                      spec:
+                        target:
+                          detection: auto
+                          type: repository
+                        advanced:
+                          log:
+                            level: info
+                          args: {}
+                        mode: orchestration
+                        config: default
               - step:
-                  type: BuildAndPushDockerRegistry
-                  name: BuildAndPushDockerRegistry_1
-                  identifier: BuildAndPushDockerRegistry_1
+                  type: Gitleaks
+                  name: Gitleaks_1
+                  identifier: Gitleaks_1
                   spec:
-                    connectorRef: account.harnessImage
-                    repo: test
-                    tags:
-                      - test
-                    caching: true
-                    envVariables:
-                      PLUGIN_DRY_RUN: "true"
+                    target:
+                      detection: auto
+                      type: repository
+                    advanced:
+                      log:
+                        level: info
+                      args: {}
+                    mode: orchestration
+                    config: default
