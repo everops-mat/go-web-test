@@ -12,7 +12,7 @@ pipeline:
         build:
           type: branch
           spec:
-            branch: <+input> || <+codebase.branch>
+            branch: <+input>
   stages:
     - stage:
         name: Lets Validate The Branch Name
