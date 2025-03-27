@@ -15,7 +15,7 @@ pipeline:
             branch: main
   stages:
     - stage:
-        name: Validate Branch Name
+        name: Let's Validate The Branch Name
         identifier: Validate_Branch_Name
         type: CI
         spec:
