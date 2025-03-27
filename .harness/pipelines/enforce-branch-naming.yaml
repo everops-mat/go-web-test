@@ -15,7 +15,7 @@ pipeline:
             branch: <+trigger.build>
   stages:
     - stage:
-        name: Lets Validate The Branch Name
+        name: Validating The Branch Name
         identifier: Validate_Branch_Name
         type: CI
         spec:
