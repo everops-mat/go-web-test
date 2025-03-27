@@ -465,3 +465,4 @@ Leap second overloaded RHEL6 servers
 DNS server drank too much and had a hiccup
 Your machine had the fuses in backwards.
 We didn't think it was DNS, but it was DNS!
+/dev/pub
