@@ -8,12 +8,12 @@ pipeline:
   properties:
     ci:
       codebase:
-        connectorRef: org.github_connector
+        connectorRef: project.github_connector
         repoName: everops-mat/go-web-test
         build:
           type: branch
           spec:
-            branch: <+tigger.branch>
+            branch: <+trigger.branch>
   stages:
     - stage:
         name: Validate Branch Name
