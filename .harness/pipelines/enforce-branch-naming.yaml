@@ -12,7 +12,7 @@ pipeline:
         build:
           type: branch
           spec:
-            branch: main
+            branch: <+trigger.branch>
   stages:
     - stage:
         name: Validate Branch Name
