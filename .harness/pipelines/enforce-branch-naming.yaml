@@ -12,7 +12,7 @@ pipeline:
         build:
           type: branch
           spec:
-            branch: bugfix/testonetwothree
+            branch: main
   stages:
     - stage:
         name: Validate Branch Name
