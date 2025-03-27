@@ -5,6 +5,15 @@ pipeline:
   projectIdentifier: go_web_test
   orgIdentifier: default
   tags: {}
+  properties:
+    ci:
+      codebase:
+        connectRef: org.github_connector
+        repoName: everops-mat/go-web-test
+        build:
+          type: branch
+          spec:
+            branch: <+tigger.branch>
   stages:
     - stage:
         name: Validate Branch Name
