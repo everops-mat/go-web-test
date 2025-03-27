@@ -95,5 +95,3 @@ At the present time, we do NOT check that test are created (TODO)
 and we do not check the overall coverage of the tests.
 
 We also have a local test action to test the perl code.
-
-* cgi-test
